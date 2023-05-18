@@ -4,10 +4,12 @@ from aiogram.utils import executor
 import logging
 from stopwords import stop_words
 import string
+import os
 
+print(os.getenv('TOKEN_KR'))
 logging.basicConfig(filename='krylov_bot.log', encoding='utf-8', level=logging.INFO, filemode='a',
                     format='%(asctime)s %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
-bot = Bot(token='6022406658:AAFRPGZGietE7xnd_X_tOYfnLw3gVNIPjIU')
+bot = Bot(token=os.getenv('TOKEN_KR'))
 dp = Dispatcher(bot)
 
 logging.info('Bot is running...')
