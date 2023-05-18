@@ -6,9 +6,8 @@ from stopwords import stop_words
 import string
 import os
 
-print(os.getenv('TOKEN_KR'))
 logging.basicConfig(filename='krylov_bot.log', encoding='utf-8', level=logging.INFO, filemode='a',
-                    format='%(asctime)s %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+                    format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 bot = Bot(token=os.getenv('TOKEN_KR'))
 dp = Dispatcher(bot)
 
@@ -35,9 +34,7 @@ async def command_start(message: types.Message):
 
 @dp.message_handler(commands=['worktime'])
 async def usual_open(message: types.Message):
-    await bot.send_message(message.from_user.id,
-                           'Вс-Чт: с 12:00 до 24:00, Пт-Сб: с 12:00 до 02:00') @ dp.message_handler(
-        commands=['Режим работы'])
+    await bot.send_message(message.from_user.id, 'Вс-Чт: с 12:00 до 24:00, Пт-Сб: с 12:00 до 02:00')
 
 
 @dp.message_handler(commands=['address'])
