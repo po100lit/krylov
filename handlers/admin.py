@@ -4,6 +4,9 @@ from aiogram import types, Dispatcher
 from create_bot import dp, bot
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters import BoundFilter
+from database import sqlite_db
+from keyboards import admin_kb
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 class FSMAdmin(StatesGroup):
@@ -36,7 +39,7 @@ async def make_changes_command(message: types.Message):
     chat_id = message.chat.id
     user_id = message.from_user.id
     is_admin = await bot.get_chat_member(chat_id, user_id)
-    await bot.send_message(message.from_user.id, "Что хозяин хочет?")  # , reply_markup=button_case_admin)
+    await bot.send_message(message.from_user.id, "Что хозяин хочет?", reply_markup=admin_kb.button_case_admin)
     await message.delete()
 
 
@@ -95,8 +98,10 @@ async def load_price(message: types.Message, state: FSMContext):
     if message.from_user.id == ID:
         async with state.proxy() as data:
             data['price'] = float(message.text)
-        async with state.proxy() as data:
-            await message.reply(str(data))
+        # Вывод в чат информации что/куда записано в меню
+        # async with state.proxy() as data:
+        #     await message.reply(str(data))
+        await sqlite_db.sql_add_command(state)
         await state.finish()
 
 

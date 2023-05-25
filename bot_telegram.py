@@ -2,6 +2,7 @@ from aiogram.utils import executor
 from create_bot import dp
 import logging
 from handlers import client, admin, other
+from database import sqlite_db
 
 logging.basicConfig(filename='krylov_bot.log', encoding='utf-8', level=logging.INFO, filemode='a',
                     format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
@@ -10,6 +11,7 @@ logging.info('Bot is running...')
 
 async def on_startup(_):
     print('Bot online!')
+    sqlite_db.sql_start()
 
 
 client.register_handlers_client(dp)

@@ -2,6 +2,7 @@ from aiogram import types, Dispatcher
 from create_bot import dp, bot
 from keyboards import kb_client
 import logging
+from database import sqlite_db
 
 logging.basicConfig(filename='krylov_bot.log', encoding='utf-8', level=logging.INFO, filemode='a',
                     format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
@@ -30,7 +31,13 @@ async def location(message: types.Message):
     await bot.send_message(message.from_user.id, 'ул. Крылова, д. 45')
 
 
+@dp.message_handler(commands=['menu'])
+async def menu_command(message: types.Message):
+    await sqlite_db.sql_read(message)
+
+
 def register_handlers_client(dp: Dispatcher):
     dp.register_message_handler(command_start, commands=['start', 'help'])
     dp.register_message_handler(usual_open, commands=['worktime'])
     dp.register_message_handler(location, commands=['address'])
+    dp.register_message_handler(menu_command, commands=['menu'])
