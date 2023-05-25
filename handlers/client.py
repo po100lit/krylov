@@ -1,5 +1,6 @@
 from aiogram import types, Dispatcher
 from create_bot import dp, bot
+from keyboards import kb_client
 import logging
 
 logging.basicConfig(filename='krylov_bot.log', encoding='utf-8', level=logging.INFO, filemode='a',
@@ -9,7 +10,7 @@ logging.basicConfig(filename='krylov_bot.log', encoding='utf-8', level=logging.I
 # @dp.message_handler(commands=['start', 'help'])
 async def command_start(message: types.Message):
     try:
-        await bot.send_message(message.from_user.id, 'Krylov is LOVE!')
+        await bot.send_message(message.from_user.id, 'Krylov is LOVE!', reply_markup=kb_client)
         await message.delete()
     except Exception as _ex:
         logging.warning(_ex)
